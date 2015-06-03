@@ -359,6 +359,37 @@ arm_cp15_set_translation_table_base(uint32_t *base)
 }
 
 ARM_CP15_TEXT_SECTION static inline uint32_t
+arm_cp15_get_translation_table_base_config()
+{
+  ARM_SWITCH_REGISTERS;
+  uint32_t val;
+
+  __asm__ volatile (
+    ARM_SWITCH_TO_ARM
+    "mrc p15, 0, %[val], c2, c0, 0\n"
+    ARM_SWITCH_BACK
+    : [val] "=&r" (val) ARM_SWITCH_ADDITIONAL_OUTPUT
+  );
+
+  return val;
+}
+
+ARM_CP15_TEXT_SECTION static inline void
+arm_cp15_set_translation_table_base_config(uint32_t val)
+{
+  ARM_SWITCH_REGISTERS;
+
+  __asm__ volatile (
+    ARM_SWITCH_TO_ARM
+    "mcr p15, 0, %[val], c2, c0, 0\n"
+ 
+    ARM_SWITCH_BACK
+    : ARM_SWITCH_OUTPUT
+    : [val] "r" (val)
+  );
+}
+
+ARM_CP15_TEXT_SECTION static inline uint32_t
 arm_cp15_get_domain_access_control(void)
 {
   ARM_SWITCH_REGISTERS;

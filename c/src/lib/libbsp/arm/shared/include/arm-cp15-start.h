@@ -124,6 +124,10 @@ arm_cp15_start_setup_translation_table(
 
   arm_cp15_set_domain_access_control(dac);
   arm_cp15_set_translation_table_base(ttb);
+  
+  uint32_t ctrl = arm_cp15_get_translation_table_base_config();
+  ctrl |= (1<<0)|(1<<1)|(1<<2)|(1<<4);
+  arm_cp15_set_translation_table_base_config(ctrl);
 
   /* Initialize translation table with invalid entries */
   for (i = 0; i < ARM_MMU_TRANSLATION_TABLE_ENTRY_COUNT; ++i) {
@@ -152,8 +156,8 @@ arm_cp15_start_setup_translation_table_and_enable_mmu_and_cache(
   );
 
   /* Enable MMU and cache */
-  ctrl |= ARM_CP15_CTRL_I | ARM_CP15_CTRL_C | ARM_CP15_CTRL_M;
-
+//  ctrl |= ARM_CP15_CTRL_I | ARM_CP15_CTRL_C | ARM_CP15_CTRL_M;
+ ctrl |= ARM_CP15_CTRL_I | ARM_CP15_CTRL_C | ARM_CP15_CTRL_M| ARM_CP15_CTRL_Z;
   arm_cp15_set_control(ctrl);
 }
 
