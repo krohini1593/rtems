@@ -125,8 +125,9 @@ arm_cp15_start_setup_translation_table(
   arm_cp15_set_domain_access_control(dac);
   arm_cp15_set_translation_table_base(ttb);
   
+  /* Set translation table memory attributes */
   uint32_t ctrl = arm_cp15_get_translation_table_base_config();
-  ctrl |= (1<<0)|(1<<1)|(1<<2)|(1<<4);
+  ctrl |= ARM_CP15_TTBR0_NOS | ARM_CP15_TTBR0_RGN | ARM_CP15_TTBR0_S | ARM_CP15_TTBR0_IRGN;
   arm_cp15_set_translation_table_base_config(ctrl);
 
   /* Initialize translation table with invalid entries */

@@ -179,6 +179,16 @@ extern "C" {
 /** @} */
 
 /**
+ * @name Translation Table Base Register Defines
+ *
+ * @{
+ */
+
+#define ARM_CP15_TTBR0_NOS (1U<<4)
+#define ARM_CP15_TTBR0_RGN 0x08U
+#define ARM_CP15_TTBR0_S   (1U<<1)
+#define ARM_CP15_TTBR0_IRGN 0x01U
+/**
  * @name Domain Access Control Defines
  *
  * @{
@@ -381,8 +391,7 @@ arm_cp15_set_translation_table_base_config(uint32_t val)
 
   __asm__ volatile (
     ARM_SWITCH_TO_ARM
-    "mcr p15, 0, %[val], c2, c0, 0\n"
- 
+    "mcr p15, 0, %[val], c2, c0, 0\n" 
     ARM_SWITCH_BACK
     : ARM_SWITCH_OUTPUT
     : [val] "r" (val)
