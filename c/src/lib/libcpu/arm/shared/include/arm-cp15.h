@@ -125,7 +125,7 @@ extern "C" {
   (ARMV7_MMU_READ_ONLY | ARM_MMU_SECT_TEX_0)
 
 #define ARMV7_MMU_DATA_READ_ONLY_CACHED \
-  ARMV7_MMU_READ_ONLY_CACHED
+  ARMV7_MMU_READ_ONLY_CACHED 
 
 #define ARMV7_MMU_DATA_READ_WRITE \
   (ARMV7_MMU_READ_WRITE | ARM_MMU_SECT_TEX_0)
@@ -184,10 +184,13 @@ extern "C" {
  * @{
  */
 
-#define ARM_CP15_TTBR0_NOS (1U<<4)
+#define ARM_CP15_TTBR0_NOS (0U<<5)
 #define ARM_CP15_TTBR0_RGN 0x08U
-#define ARM_CP15_TTBR0_S   (1U<<1)
-#define ARM_CP15_TTBR0_IRGN 0x01U
+#define ARM_CP15_TTBR0_S (1U<<1)
+#define ARM_CP15_TTBR0_IRGN 0x40U
+
+/** @} */
+
 /**
  * @name Domain Access Control Defines
  *
