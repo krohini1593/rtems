@@ -21,7 +21,7 @@ BSP_START_TEXT_SECTION void bsp_memory_management_initialize(void)
 
   uint32_t ctrl = arm_cp15_start_setup_mmu_and_cache(
     ARM_CP15_CTRL_A,
-    ARM_CP15_CTRL_AFE
+    ARM_CP15_CTRL_AFE| ARM_CP15_CTRL_Z
   );
   
   arm_cp15_start_setup_translation_table_and_enable_mmu_and_cache(
@@ -31,6 +31,6 @@ BSP_START_TEXT_SECTION void bsp_memory_management_initialize(void)
     &arm_cp15_start_mmu_config_table[0],
     arm_cp15_start_mmu_config_table_size
   );
-  
-  arm_cp15_branch_predictor_invalidate_all();
+  __asm__ volatile ("isb" ::: "memory");
+  //arm_cp15_branch_predictor_invalidate_all();
 }

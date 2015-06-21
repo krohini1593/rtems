@@ -47,7 +47,7 @@ typedef struct {
   }, { \
     .begin = (uint32_t) bsp_section_fast_data_begin, \
     .end = (uint32_t) bsp_section_fast_data_end, \
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED \
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED  \
   }, { \
     .begin = (uint32_t) bsp_section_start_begin, \
     .end = (uint32_t) bsp_section_start_end, \
@@ -55,11 +55,11 @@ typedef struct {
   }, { \
     .begin = (uint32_t) bsp_section_vector_begin, \
     .end = (uint32_t) bsp_section_vector_end, \
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED \
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED  \
   }, { \
     .begin = (uint32_t) bsp_section_text_begin, \
     .end = (uint32_t) bsp_section_text_end, \
-    .flags = ARMV7_MMU_CODE_CACHED \
+    .flags = ARMV7_MMU_CODE_CACHED  \
   }, { \
     .begin = (uint32_t) bsp_section_rodata_begin, \
     .end = (uint32_t) bsp_section_rodata_end, \
@@ -67,7 +67,7 @@ typedef struct {
   }, { \
     .begin = (uint32_t) bsp_section_data_begin, \
     .end = (uint32_t) bsp_section_data_end, \
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED \
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED  \
   }, { \
     .begin = (uint32_t) bsp_section_bss_begin, \
     .end = (uint32_t) bsp_section_bss_end, \
@@ -79,7 +79,7 @@ typedef struct {
   }, { \
     .begin = (uint32_t) bsp_section_stack_begin, \
     .end = (uint32_t) bsp_section_stack_end, \
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED \
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED  \
   }, { \
     .begin = (uint32_t) bsp_section_nocache_begin, \
     .end = (uint32_t) bsp_section_nocache_end, \
