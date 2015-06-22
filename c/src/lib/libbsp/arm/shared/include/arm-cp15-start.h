@@ -47,7 +47,7 @@ typedef struct {
   }, { \
     .begin = (uint32_t) bsp_section_fast_data_begin, \
     .end = (uint32_t) bsp_section_fast_data_end, \
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED  \
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED \
   }, { \
     .begin = (uint32_t) bsp_section_start_begin, \
     .end = (uint32_t) bsp_section_start_end, \
@@ -55,11 +55,11 @@ typedef struct {
   }, { \
     .begin = (uint32_t) bsp_section_vector_begin, \
     .end = (uint32_t) bsp_section_vector_end, \
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED  \
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED \
   }, { \
     .begin = (uint32_t) bsp_section_text_begin, \
     .end = (uint32_t) bsp_section_text_end, \
-    .flags = ARMV7_MMU_CODE_CACHED  \
+    .flags = ARMV7_MMU_CODE_CACHED \
   }, { \
     .begin = (uint32_t) bsp_section_rodata_begin, \
     .end = (uint32_t) bsp_section_rodata_end, \
@@ -67,7 +67,7 @@ typedef struct {
   }, { \
     .begin = (uint32_t) bsp_section_data_begin, \
     .end = (uint32_t) bsp_section_data_end, \
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED  \
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED \
   }, { \
     .begin = (uint32_t) bsp_section_bss_begin, \
     .end = (uint32_t) bsp_section_bss_end, \
@@ -79,7 +79,7 @@ typedef struct {
   }, { \
     .begin = (uint32_t) bsp_section_stack_begin, \
     .end = (uint32_t) bsp_section_stack_end, \
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED  \
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED \
   }, { \
     .begin = (uint32_t) bsp_section_nocache_begin, \
     .end = (uint32_t) bsp_section_nocache_end, \
@@ -125,11 +125,6 @@ arm_cp15_start_setup_translation_table(
   arm_cp15_set_domain_access_control(dac);
   arm_cp15_set_translation_table_base(ttb);
   
-  /* Set translation table memory attributes */
- /* uint32_t ctrl = arm_cp15_get_translation_table_base_config();
-  ctrl |= ARM_CP15_TTBR0_NOS | ARM_CP15_TTBR0_RGN | ARM_CP15_TTBR0_S | ARM_CP15_TTBR0_IRGN;
-  arm_cp15_set_translation_table_base_config(ctrl);
-*/
   /* Initialize translation table with invalid entries */
   for (i = 0; i < ARM_MMU_TRANSLATION_TABLE_ENTRY_COUNT; ++i) {
     ttb [i] = 0;

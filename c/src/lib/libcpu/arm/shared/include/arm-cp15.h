@@ -114,30 +114,30 @@ extern "C" {
 #ifdef RTEMS_SMP
   #define ARMV7_MMU_READ_WRITE_CACHED \
     (ARMV7_MMU_READ_WRITE \
-     | ARM_MMU_SECT_TEX_0 | ARM_MMU_SECT_C | ARM_MMU_SECT_B | ARM_MMU_SECT_S)
+      | ARM_MMU_SECT_TEX_0 | ARM_MMU_SECT_C | ARM_MMU_SECT_B | ARM_MMU_SECT_S)
 #else
   #define ARMV7_MMU_READ_WRITE_CACHED \
     (ARMV7_MMU_READ_WRITE \
-     | ARM_MMU_SECT_TEX_0 | ARM_MMU_SECT_C | ARM_MMU_SECT_B )
+      | ARM_MMU_SECT_TEX_0 | ARM_MMU_SECT_C | ARM_MMU_SECT_B)
 #endif
 
 #define ARMV7_MMU_DATA_READ_ONLY \
   (ARMV7_MMU_READ_ONLY | ARM_MMU_SECT_TEX_0)
 
 #define ARMV7_MMU_DATA_READ_ONLY_CACHED \
-  ARMV7_MMU_READ_ONLY_CACHED 
+  ARMV7_MMU_READ_ONLY_CACHED
 
 #define ARMV7_MMU_DATA_READ_WRITE \
   (ARMV7_MMU_READ_WRITE | ARM_MMU_SECT_TEX_0)
 
 #define ARMV7_MMU_DATA_READ_WRITE_CACHED \
-  ARMV7_MMU_READ_WRITE_CACHED 
+  ARMV7_MMU_READ_WRITE_CACHED
 
 #define ARMV7_MMU_CODE \
   (ARMV7_MMU_READ_ONLY | ARM_MMU_SECT_TEX_0)
 
 #define ARMV7_MMU_CODE_CACHED \
-  ARMV7_MMU_READ_ONLY_CACHED 
+  ARMV7_MMU_READ_ONLY_CACHED
 
 #define ARMV7_MMU_DEVICE \
   (ARMV7_MMU_READ_WRITE | ARM_MMU_SECT_B)
@@ -355,6 +355,38 @@ arm_cp15_set_translation_table_base(uint32_t *base)
     ARM_SWITCH_BACK
     : ARM_SWITCH_OUTPUT
     : [base] "r" (base)
+  );
+}
+
+ARM_CP15_TEXT_SECTION static inline void
+arm_cp15_get_translation_table_base_config()
+{
+  ARM_SWITCH_REGISTERS;
+  uint32_t val;
+
+  __asm__ volatile (
+    ARM_SWITCH_TO_ARM
+    "mrc p15, 0, %[val], c2, c0, 0\n"
+    ARM_SWITCH_BACK
+    : [val] "=&r" (val) ARM_SWITCH_ADDITIONAL_OUTPUT
+  );
+
+  return val;
+}
+
+ARM_CP15_TEXT_SECTION static inline void
+arm_cp15_set_translation_table_base_config(uint32_t val)
+{
+  ARM_SWITCH_REGISTERS;
+
+  __asm__ volatile (
+    ARM_SWITCH_TO_ARM
+    "mcr p15, 0, %[val], c2, c0, 0\n"
+ 
+    ARM_SWITCH_BACK
+    : ARM_SWITCH_OUTPUT
+    : [val] "r" (val)
+    : "memory"
   );
 }
 
