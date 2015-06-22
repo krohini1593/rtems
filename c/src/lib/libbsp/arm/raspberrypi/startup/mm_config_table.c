@@ -27,46 +27,46 @@ const arm_cp15_start_section_config arm_cp15_start_mmu_config_table[] = {
   {
     .begin = (uint32_t) bsp_section_fast_text_begin,
     .end = (uint32_t) bsp_section_fast_text_end,
-    .flags = ARMV7_MMU_CODE_CACHED |ARM_MMU_SECT_TEX_2|ARM_MMU_SECT_TEX_1 | ARM_MMU_SECT_C | ARM_MMU_SECT_B |ARM_MMU_SECT_S
+    .flags = ARMV7_MMU_CODE_CACHED
   }, {
     .begin = (uint32_t) bsp_section_fast_data_begin,
     .end = (uint32_t) bsp_section_fast_data_end,
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED |ARM_MMU_SECT_TEX_2|ARM_MMU_SECT_TEX_1 | ARM_MMU_SECT_S | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED 
   }, {
     .begin = (uint32_t) bsp_section_start_begin,
     .end = (uint32_t) bsp_section_start_end,
-    .flags = ARMV7_MMU_CODE_CACHED |ARM_MMU_SECT_TEX_2|ARM_MMU_SECT_TEX_1 | ARM_MMU_SECT_S | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
+    .flags = ARMV7_MMU_CODE_CACHED 
   }, {
     .begin = (uint32_t) bsp_section_vector_begin,
     .end = (uint32_t) bsp_section_vector_end,
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED |ARM_MMU_SECT_TEX_2|ARM_MMU_SECT_TEX_1 | ARM_MMU_SECT_S | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED 
   }, {
     .begin = (uint32_t) bsp_section_text_begin,
     .end = (uint32_t) bsp_section_text_end,
-    .flags = ARMV7_MMU_READ_WRITE |ARM_MMU_SECT_TEX_2|ARM_MMU_SECT_TEX_1 | ARM_MMU_SECT_S | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
+    .flags = ARMV7_MMU_READ_WRITE | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
   }, {
     .begin = (uint32_t) bsp_section_rodata_begin,
     .end = (uint32_t) bsp_section_rodata_end,
-    .flags = ARMV7_MMU_DATA_READ_ONLY_CACHED |ARM_MMU_SECT_TEX_2|ARM_MMU_SECT_TEX_1 | ARM_MMU_SECT_S | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
+    .flags = ARMV7_MMU_DATA_READ_ONLY_CACHED 
   }, {
     .begin = (uint32_t) bsp_section_data_begin,
     .end = (uint32_t) bsp_section_data_end,
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED |ARM_MMU_SECT_TEX_2|ARM_MMU_SECT_TEX_1 | ARM_MMU_SECT_S | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED 
   }, {
     .begin = (uint32_t) bsp_section_bss_begin,
     .end = (uint32_t) bsp_section_bss_end,
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED |ARM_MMU_SECT_TEX_2|ARM_MMU_SECT_TEX_1 | ARM_MMU_SECT_S | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED 
   }, {
     .begin = (uint32_t) bsp_section_work_begin,
     .end = (uint32_t) bsp_section_work_end,
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED |ARM_MMU_SECT_TEX_2|ARM_MMU_SECT_TEX_1 | ARM_MMU_SECT_S | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED 
   }, {
     .begin = (uint32_t) bsp_section_stack_begin,
     .end = (uint32_t) bsp_section_stack_end,
-    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED |ARM_MMU_SECT_TEX_2|ARM_MMU_SECT_TEX_1 | ARM_MMU_SECT_S | ARM_MMU_SECT_C | ARM_MMU_SECT_B
+    .flags = ARMV7_MMU_DATA_READ_WRITE_CACHED 
   }, {
     .begin = RPI_PERIPHERAL_BASE,
-    .end =   RPI_PERIPHERAL_BASE + RPI_PERIPHERAL_SIZE ,
+    .end =   RPI_PERIPHERAL_BASE + RPI_PERIPHERAL_SIZE,
     .flags = ARMV7_MMU_DEVICE
   }
 };

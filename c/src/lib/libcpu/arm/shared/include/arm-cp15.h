@@ -71,7 +71,7 @@ extern "C" {
 #define ARM_MMU_SECT_S (1U << 16)
 #define ARM_MMU_SECT_AP_2 (1U << 15)
 #define ARM_MMU_SECT_TEX_2 (1U << 14)
-#define ARM_MMU_SECT_TEX_1 (0U << 13)
+#define ARM_MMU_SECT_TEX_1 (1U << 13)
 #define ARM_MMU_SECT_TEX_0 (1U << 12)
 #define ARM_MMU_SECT_TEX_SHIFT 12
 #define ARM_MMU_SECT_TEX_MASK (0x3U << ARM_MMU_SECT_TEX_SHIFT)
@@ -82,7 +82,7 @@ extern "C" {
 #define ARM_MMU_SECT_DOMAIN_SHIFT 5
 #define ARM_MMU_SECT_DOMAIN_MASK (0xfU << ARM_MMU_SECT_DOMAIN_SHIFT)
 #define ARM_MMU_SECT_XN (1U << 4)
-#define ARM_MMU_SECT_C (0U << 3)
+#define ARM_MMU_SECT_C (1U << 3)
 #define ARM_MMU_SECT_B (1U << 2)
 #define ARM_MMU_SECT_PXN (1U << 0)
 #define ARM_MMU_SECT_DEFAULT 0x2U
@@ -114,11 +114,11 @@ extern "C" {
 #ifdef RTEMS_SMP
   #define ARMV7_MMU_READ_WRITE_CACHED \
     (ARMV7_MMU_READ_WRITE \
-       ARM_MMU_SECT_TEX_0 | ARM_MMU_SECT_C | ARM_MMU_SECT_B | ARM_MMU_SECT_S)
+     | ARM_MMU_SECT_TEX_0 | ARM_MMU_SECT_C | ARM_MMU_SECT_B | ARM_MMU_SECT_S)
 #else
   #define ARMV7_MMU_READ_WRITE_CACHED \
     (ARMV7_MMU_READ_WRITE \
-      | ARM_MMU_SECT_TEX_0 | ARM_MMU_SECT_C | ARM_MMU_SECT_B )
+     | ARM_MMU_SECT_TEX_0 | ARM_MMU_SECT_C | ARM_MMU_SECT_B )
 #endif
 
 #define ARMV7_MMU_DATA_READ_ONLY \
@@ -131,13 +131,13 @@ extern "C" {
   (ARMV7_MMU_READ_WRITE | ARM_MMU_SECT_TEX_0)
 
 #define ARMV7_MMU_DATA_READ_WRITE_CACHED \
-  ARMV7_MMU_READ_WRITE_CACHED
+  ARMV7_MMU_READ_WRITE_CACHED 
 
 #define ARMV7_MMU_CODE \
   (ARMV7_MMU_READ_ONLY | ARM_MMU_SECT_TEX_0)
 
 #define ARMV7_MMU_CODE_CACHED \
-  ARMV7_MMU_READ_ONLY_CACHED
+  ARMV7_MMU_READ_ONLY_CACHED 
 
 #define ARMV7_MMU_DEVICE \
   (ARMV7_MMU_READ_WRITE | ARM_MMU_SECT_B)
@@ -175,19 +175,6 @@ extern "C" {
 #define ARM_CP15_CTRL_C (1U << 2)
 #define ARM_CP15_CTRL_A (1U << 1)
 #define ARM_CP15_CTRL_M (1U << 0)
-
-/** @} */
-
-/**
- * @name Translation Table Base Register Defines
- *
- * @{
- */
-
-#define ARM_CP15_TTBR0_NOS (0U<<5)
-#define ARM_CP15_TTBR0_RGN 0x08U
-#define ARM_CP15_TTBR0_S (1U<<1)
-#define ARM_CP15_TTBR0_IRGN 0x40U
 
 /** @} */
 
@@ -368,36 +355,6 @@ arm_cp15_set_translation_table_base(uint32_t *base)
     ARM_SWITCH_BACK
     : ARM_SWITCH_OUTPUT
     : [base] "r" (base)
-  );
-}
-
-ARM_CP15_TEXT_SECTION static inline uint32_t
-arm_cp15_get_translation_table_base_config()
-{
-  ARM_SWITCH_REGISTERS;
-  uint32_t val;
-
-  __asm__ volatile (
-    ARM_SWITCH_TO_ARM
-    "mrc p15, 0, %[val], c2, c0, 0\n"
-    ARM_SWITCH_BACK
-    : [val] "=&r" (val) ARM_SWITCH_ADDITIONAL_OUTPUT
-  );
-
-  return val;
-}
-
-ARM_CP15_TEXT_SECTION static inline void
-arm_cp15_set_translation_table_base_config(uint32_t val)
-{
-  ARM_SWITCH_REGISTERS;
-
-  __asm__ volatile (
-    ARM_SWITCH_TO_ARM
-    "mcr p15, 0, %[val], c2, c0, 0\n" 
-    ARM_SWITCH_BACK
-    : ARM_SWITCH_OUTPUT
-    : [val] "r" (val)
   );
 }
 

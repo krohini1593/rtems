@@ -126,10 +126,10 @@ arm_cp15_start_setup_translation_table(
   arm_cp15_set_translation_table_base(ttb);
   
   /* Set translation table memory attributes */
-  uint32_t ctrl = arm_cp15_get_translation_table_base_config();
+ /* uint32_t ctrl = arm_cp15_get_translation_table_base_config();
   ctrl |= ARM_CP15_TTBR0_NOS | ARM_CP15_TTBR0_RGN | ARM_CP15_TTBR0_S | ARM_CP15_TTBR0_IRGN;
   arm_cp15_set_translation_table_base_config(ctrl);
-
+*/
   /* Initialize translation table with invalid entries */
   for (i = 0; i < ARM_MMU_TRANSLATION_TABLE_ENTRY_COUNT; ++i) {
     ttb [i] = 0;
