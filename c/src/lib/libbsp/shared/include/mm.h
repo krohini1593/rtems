@@ -33,6 +33,10 @@ extern "C" {
  *  @brief MM Support Package
  */
 
+extern uint32_t bsp_initial_mmu_ctrl_set;
+extern uint32_t bsp_initial_mmu_ctrl_clear;
+extern uint32_t domain_set;
+
 void bsp_memory_management_initialize(void);
 
 #ifdef __cplusplus
