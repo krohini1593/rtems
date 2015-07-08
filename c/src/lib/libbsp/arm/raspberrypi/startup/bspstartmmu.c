@@ -7,12 +7,12 @@
 #include <bsp/mm.h>
 #include <bsp.h>
 
-uint32_t bsp_initial_mmu_ctrl_set;
-uint32_t bsp_initial_mmu_ctrl_clear;
-uint32_t domain_set;
-
 void raspberrypi_setup_mmu_and_cache(void)
 {   
+  uint32_t bsp_initial_mmu_ctrl_set;
+  uint32_t bsp_initial_mmu_ctrl_clear;
+  uint32_t domain_set;
+
 #if (BSP_IS_RPI2 == 1)
   /* Enable SMP in auxiliary control */
   uint32_t actlr = arm_cp15_get_auxiliary_control();
@@ -21,10 +21,14 @@ void raspberrypi_setup_mmu_and_cache(void)
   bsp_initial_mmu_ctrl_clear = ARM_CP15_CTRL_A;
   bsp_initial_mmu_ctrl_set = ARM_CP15_CTRL_AFE | ARM_CP15_CTRL_Z;  
 #else
-  initial_ctrl_clear = 0;
-  initial_ctrl_set = ARM_CP15_CTRL_AFE | ARM_CP15_CTRL_S | ARM_CP15_CTRL_XP;  
+  bsp_initial_mmu_ctrl_clear = 0;
+  bsp_initial_mmu_ctrl_set = ARM_CP15_CTRL_AFE | ARM_CP15_CTRL_S | ARM_CP15_CTRL_XP;  
 #endif
   domain_set = ARM_MMU_DEFAULT_CLIENT_DOMAIN;
   
-  bsp_memory_management_initialize();
+  bsp_memory_management_initialize(
+    bsp_initial_mmu_ctrl_set,
+    bsp_initial_mmu_ctrl_clear,
+    domain_set
+  );
 }

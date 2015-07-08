@@ -15,7 +15,11 @@
 #include <bsp/mm.h>
 
 
-BSP_START_TEXT_SECTION void bsp_memory_management_initialize()
+BSP_START_TEXT_SECTION void bsp_memory_management_initialize(
+  uint32_t bsp_initial_mmu_ctrl_set,
+  uint32_t bsp_initial_mmu_ctrl_clear,
+  uint32_t domain_set
+)
 {
   uint32_t ctrl = arm_cp15_start_setup_mmu_and_cache(
     bsp_initial_mmu_ctrl_clear,
