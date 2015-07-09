@@ -47,6 +47,3 @@ extern "C" {
  * @brief Raspberry Pi support package
  *
  */
-
-void raspberrypi_setup_mmu_and_cache(void);
-
