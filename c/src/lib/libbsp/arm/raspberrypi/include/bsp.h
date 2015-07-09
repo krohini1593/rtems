@@ -33,12 +33,6 @@ extern "C" {
 
 #define BSP_FEATURE_IRQ_EXTENSION
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
-#endif /* LIBBSP_ARM_RASPBERRYPI_BSP_H */
-
 /**
  * @defgroup arm_raspberrypi Raspberry Pi Support
  *
@@ -47,3 +41,11 @@ extern "C" {
  * @brief Raspberry Pi support package
  *
  */
+
+void raspberrypi_setup_mmu_and_cache(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* LIBBSP_ARM_RASPBERRYPI_BSP_H */
