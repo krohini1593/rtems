@@ -26,6 +26,7 @@
 #include <rtems/console.h>
 #include <rtems/clockdrv.h>
 #include <bsp/raspberrypi.h>
+#include <bsp/start.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,7 +43,7 @@ extern "C" {
  *
  */
 
-void raspberrypi_setup_mmu_and_cache(void);
+BSP_START_TEXT_SECTION void raspberrypi_setup_mmu_and_cache(void);
 
 #ifdef __cplusplus
 }

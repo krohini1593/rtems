@@ -94,6 +94,8 @@ libbsp_a_SOURCES += ../shared/arm-cp15-set-ttb-entries.c
 libbsp_a_SOURCES += ../../shared/bspreset_loop.c
 libbsp_a_SOURCES += startup/bspstart.c
 
+endif
+
 # IRQ
 libbsp_a_SOURCES += ../shared/arm-cp15-set-exception-handler.c
 libbsp_a_SOURCES += ../../shared/src/irq-generic.c
@@ -131,7 +133,6 @@ libbsp_a_CPPFLAGS += -I$(srcdir)/../../../libcpu/arm/shared/include
 
 # Start hooks
 libbsp_a_SOURCES += startup/bspstarthooks.c
-libbsp_a_SOURCES += startup/bspstartmmu.c
 
 # LIBMM
 libbsp_a_SOURCES += startup/mm_config_table.c

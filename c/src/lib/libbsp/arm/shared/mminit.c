@@ -14,21 +14,20 @@
 #include <libcpu/arm-cp15.h>
 #include <bsp/mm.h>
 
-
 BSP_START_TEXT_SECTION void bsp_memory_management_initialize(
   uint32_t bsp_initial_mmu_ctrl_set,
-  uint32_t bsp_initial_mmu_ctrl_clear,
-  uint32_t domain_set
+  uint32_t bsp_initial_mmu_ctrl_clear
 )
 {
   uint32_t ctrl = arm_cp15_start_setup_mmu_and_cache(
     bsp_initial_mmu_ctrl_clear,
-    bsp_initial_mmu_ctrl_set  );
+    bsp_initial_mmu_ctrl_set  
+  );
   
   arm_cp15_start_setup_translation_table_and_enable_mmu_and_cache(
     ctrl,
     (uint32_t *) bsp_translation_table_base,
-    domain_set,
+    ARM_MMU_DEFAULT_CLIENT_DOMAIN,
     &arm_cp15_start_mmu_config_table[0],
     arm_cp15_start_mmu_config_table_size
   );
