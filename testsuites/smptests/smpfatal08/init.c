@@ -44,7 +44,7 @@ void qoriq_start_thread(void)
   /* Provided to avoid multiple definitions of the CPU SMP support functions */
 }
 #endif
-
+/*
 uint32_t _CPU_SMP_Initialize(void)
 {
   return 2;
@@ -68,7 +68,7 @@ void _CPU_SMP_Prepare_start_multitasking(void)
 {
   assert(0);
 }
-
+*/
 #if defined(RTEMS_PARAVIRT) \
   || (!defined(__leon__) && !defined(__PPC__) && !defined(__arm__))
 uint32_t _CPU_SMP_Get_current_processor(void)
@@ -76,12 +76,12 @@ uint32_t _CPU_SMP_Get_current_processor(void)
   return 0;
 }
 #endif
-
+/*
 void _CPU_SMP_Send_interrupt(uint32_t target_processor_index)
 {
   (void) target_processor_index;
 }
-
+*/
 static void Init(rtems_task_argument arg)
 {
   assert(0);

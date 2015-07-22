@@ -57,7 +57,7 @@ void BSP_START_TEXT_SECTION bsp_start_hook_0(void)
   arm_cp15_set_auxiliary_control(actlr);  
 #endif
   
-#ifdef (RTEMS_SMP)
+#ifdef RTEMS_SMP
   uint32_t cpuid = arm_cortex_a9_get_multiprocessor_cpu_id();
   if(cpuid==0){
     raspberrypi_wake_secondary_processors();

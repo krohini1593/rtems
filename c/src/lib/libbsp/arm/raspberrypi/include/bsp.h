@@ -47,8 +47,4 @@ extern "C" {
 }
 #endif /* __cplusplus */
 
-<<<<<<< HEAD
 #endif /* LIBBSP_ARM_RASPBERRYPI_BSP_H */
-=======
-#endif /* LIBBSP_ARM_RASPBERRYPI_BSP_H */
->>>>>>> 5a305f4

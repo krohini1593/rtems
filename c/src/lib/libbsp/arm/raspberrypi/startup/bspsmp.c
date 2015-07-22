@@ -1,5 +1,4 @@
 #include <bsp/raspberrypi.h>
-<<<<<<< HEAD
 #include <libcpu/arm-cp15.h>
 #include <bsp/arm-cp15-start.h>
 #include <bsp.h>
