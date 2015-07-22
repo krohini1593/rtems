@@ -44,8 +44,6 @@ include_bsp_HEADERS += include/irq.h
 include_bsp_HEADERS += include/mmu.h
 include_bsp_HEADERS += include/usart.h
 include_bsp_HEADERS += include/raspberrypi.h
-include_bsp_HEADERS += ../shared/include/arm-a9mpcore-regs.h
-include_bsp_HEADERS += ../shared/include/arm-raspberrypi-smp.h
 include_bsp_HEADERS += ../shared/include/arm-a9mpcore-start.h
 
 include_libcpu_HEADERS = ../../../libcpu/arm/shared/include/cache_.h \
