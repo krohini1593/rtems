@@ -209,6 +209,24 @@
 /** @} */
 
 
+/**
+ * @name Raspberry Pi 2 Mailbox Register Defines
+ *
+ * @{
+ */
+
+#define MAILBOX_WRITE_SET_BASE 0x4000008C 
+
+/** @} */
+
+/**
+ * @brief Raspberry Pi 2 SMP functions
+ */
+void start_on_secondary_processor(void);
+void start_processor(uint32_t cpuid);
+void raspberrypi_wake_secondary_processor(void);
+void (*cpu_mailbox_write_set_reg)(void);
+
 /** @} */
 
 #endif /* LIBBSP_ARM_RASPBERRYPI_RASPBERRYPI_H */

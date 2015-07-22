@@ -1,13 +1,13 @@
 #include <bsp/raspberrypi.h>
 #include <bsp/arm-cp15-start.h>
 
-void start_processor(uint32_t cpuid)
+BSP_START_TEXT_SECTION void start_processor(uint32_t cpuid)
 {
-  void (*cpu_mailbox_write_set_reg)() = (void*)(MAILBOX_WRITE_SET_BASE + 0x10*cpuid); 
-  cpu_mailbox_write_set_reg = &_start;
+  void (*cpu_mailbox_write_set_reg)() = (void (*)() )(MAILBOX_WRITE_SET_BASE + 0x10*cpuid); 
+  cpu_mailbox_write_set_reg = _start;
 }
 
-void raspberrypi_wake_secondary_processors()
+BSP_START_TEXT_SECTION void raspberrypi_wake_secondary_processors()
 {
   uint32_t cpu_count = 4;
   uint32_t cpuid;
@@ -18,12 +18,10 @@ void raspberrypi_wake_secondary_processors()
   }
 }
 
-BSP_START_TEXT_SECTION static inline void
+BSP_START_TEXT_SECTION inline void
 start_on_secondary_processor(void)
 {
   uint32_t ctrl;
-
-  arm_a9mpcore_start_set_vector_base();
 
   ctrl = arm_cp15_start_setup_mmu_and_cache(
     0,
@@ -69,4 +67,14 @@ void _CPU_SMP_Finalize_initialization(uint32_t cpu_count)
     
     sc = RTEMS_SUCCESSFUL;
   }
+}
+ 
+void _CPU_SMP_Prepare_start_multitasking( void )
+{
+  /* Do nothing */
+}
+
+void _CPU_SMP_Send_interrupt( uint32_t target_processor_index )
+{
+  
 }
