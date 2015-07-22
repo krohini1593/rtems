@@ -1,23 +1,16 @@
 #include <bsp/raspberrypi.h>
-//#include <bsp/arm-a9mpcore-start.h>
-//#include <rtems/score/smpimpl.h>
-
+<<<<<<< HEAD
 #include <libcpu/arm-cp15.h>
 #include <bsp/arm-cp15-start.h>
 #include <bsp.h>
-//#include <bsp/start.h>
-//#include <bsp/arm-a9mpcore-regs.h>
 
-//extern uint32_t _start;
-void start_processor(uint32_t cpuid)
+BSP_START_TEXT_SECTION void start_processor(uint32_t cpuid)
 {
-  
-  uint32_t *write_set_reg = MAILBOX_WRITE_SET_BASE + 0x10*cpuid;
-  /* START_ADDRESS to be defined */
- // *write_set_reg  = _start;
+  void (*cpu_mailbox_write_set_reg)() = (void (*)() )(MAILBOX_WRITE_SET_BASE + 0x10*cpuid); 
+  cpu_mailbox_write_set_reg = _start;
 }
 
-void start_secondary_processors()
+BSP_START_TEXT_SECTION void raspberrypi_wake_secondary_processors()
 {
   uint32_t cpu_count = 4;
   uint32_t cpuid;
@@ -28,11 +21,9 @@ void start_secondary_processors()
   }
 }
 
-void raspberrypi_start_on_secondary_processor()
+BSP_START_TEXT_SECTION inline void start_on_secondary_processor(void)
 {
   uint32_t ctrl;
-
-  arm_a9mpcore_start_set_vector_base();
 
   ctrl = arm_cp15_start_setup_mmu_and_cache(
     0,
@@ -43,7 +34,6 @@ void raspberrypi_start_on_secondary_processor()
     ARM_CP15_DAC_DOMAIN(ARM_MMU_DEFAULT_CLIENT_DOMAIN, ARM_CP15_DAC_CLIENT)
   );
 
-  /* FIXME: Sharing the translation table between processors is brittle */
   arm_cp15_set_translation_table_base(
     (uint32_t *) bsp_translation_table_base
   );
@@ -56,9 +46,37 @@ void raspberrypi_start_on_secondary_processor()
 
 bool _CPU_SMP_Start_processor(uint32_t cpu_index)
 {
-  /*
-   * Wait for secondary processor to complete its basic initialization so that
-   * we can enable the unified L2 cache.
-   */
-  return _Per_CPU_State_wait_for_non_initial_state(cpu_index, 0);
+  (void) cpu_index;
+
+  /* Nothing to do */
+
+  return true;
+}
+
+uint32_t _CPU_SMP_Initialize(void)
+{
+  uint32_t hardware_count = 4;
+  uint32_t linker_count = (uint32_t) bsp_processor_count;
+
+  return hardware_count <= linker_count ? hardware_count : linker_count;
+}
+
+void _CPU_SMP_Finalize_initialization(uint32_t cpu_count)
+{
+  /* this definition is incomplete */
+  if (cpu_count > 0) {
+    rtems_status_code sc;
+    
+    sc = RTEMS_SUCCESSFUL;
+  }
+}
+ 
+void _CPU_SMP_Prepare_start_multitasking( void )
+{
+  /* Do nothing */
+}
+
+void _CPU_SMP_Send_interrupt( uint32_t target_processor_index )
+{
+  
 }

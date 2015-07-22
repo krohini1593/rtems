@@ -43,7 +43,7 @@ const arm_cp15_start_section_config arm_cp15_start_mmu_config_table[] = {
   }, {
     .begin = (uint32_t) bsp_section_text_begin,
     .end = (uint32_t) bsp_section_text_end,
-    .flags = ARMV7_MMU_CODE_CACHED//ARMV7_MMU_READ_WRITE | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
+    .flags = ARMV7_MMU_READ_WRITE | ARM_MMU_SECT_C | ARM_MMU_SECT_B 
   }, {
     .begin = (uint32_t) bsp_section_rodata_begin,
     .end = (uint32_t) bsp_section_rodata_end,

@@ -41,7 +41,7 @@ MEMORY {
 	RAM_MMU        (AIW) : ORIGIN = 128M - 16k, LENGTH = 16k
 }
 
-bsp_processor_count = DEFINED (bsp_processor_count) ? bsp_processor_count : 4;
+bsp_processor_count = 4;
 
 REGION_ALIAS ("REGION_START", RAM);
 REGION_ALIAS ("REGION_VECTOR", VECTOR_RAM);
