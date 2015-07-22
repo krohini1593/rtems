@@ -43,8 +43,6 @@ extern "C" {
  *
  */
 
-BSP_START_TEXT_SECTION void raspberrypi_setup_mmu_and_cache(void);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
