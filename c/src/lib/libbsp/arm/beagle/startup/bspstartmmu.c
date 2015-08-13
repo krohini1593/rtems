@@ -15,6 +15,7 @@
  */
 
 #include <bsp.h>
+#include <bsp/mm.h>
 #include <bsp/start.h>
 #include <bsp/arm-cp15-start.h>
 
@@ -25,8 +26,8 @@
 
 //static uint32_t pagetable[ARM_SECTIONS] __attribute__((aligned (1024*16)));
 
-BSP_START_DATA_SECTION static const arm_cp15_start_section_config
-beagle_mmu_config_table[] = {
+BSP_START_DATA_SECTION const arm_cp15_start_section_config
+arm_cp15_start_mmu_config_table[] = {
   ARMV7_CP15_START_DEFAULT_SECTIONS,
   {
     .begin = 0x40000000U,
@@ -43,16 +44,14 @@ BSP_START_TEXT_SECTION void beagle_setup_mmu_and_cache(void) __attribute__ ((wea
 BSP_START_TEXT_SECTION void beagle_setup_mmu_and_cache(void)
 {
   /* turn mmu off first in case it's on */
-  uint32_t ctrl = arm_cp15_start_setup_mmu_and_cache(
-    ARM_CP15_CTRL_M | ARM_CP15_CTRL_A,	/* clear - mmu off */
-    ARM_CP15_CTRL_AFE | ARM_CP15_CTRL_Z
-  );
-
-  arm_cp15_start_setup_translation_table_and_enable_mmu_and_cache(
-    ctrl,
-    (uint32_t *) bsp_translation_table_base,
-    ARM_MMU_DEFAULT_CLIENT_DOMAIN,
-    &beagle_mmu_config_table[0],
-    RTEMS_ARRAY_SIZE(beagle_mmu_config_table)
+  uint32_t bsp_initial_mmu_ctrl_clear = ARM_CP15_CTRL_M | ARM_CP15_CTRL_A; 
+  uint32_t bsp_initial_mmu_ctrl_set = ARM_CP15_CTRL_AFE | ARM_CP15_CTRL_Z;
+  
+    bsp_memory_management_initialize(
+    bsp_initial_mmu_ctrl_set,
+    bsp_initial_mmu_ctrl_clear
   );
 }
+
+const size_t arm_cp15_start_mmu_config_table_size =
+  RTEMS_ARRAY_SIZE(arm_cp15_start_mmu_config_table);

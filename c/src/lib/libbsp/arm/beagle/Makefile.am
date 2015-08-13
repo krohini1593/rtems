@@ -28,6 +28,7 @@ nodist_include_bsp_HEADERS = ../../shared/include/bootcard.h
 
 include_bsp_HEADERS =
 include_bsp_HEADERS += ../../shared/include/utility.h
+include_bsp_HEADERS += ../../../libbsp/shared/include/mm.h
 include_bsp_HEADERS += ../../shared/include/irq-generic.h
 include_bsp_HEADERS += ../../shared/include/irq-info.h
 include_bsp_HEADERS += ../../shared/include/stackalloc.h
@@ -93,6 +94,9 @@ libbsp_a_SOURCES += startup/bspreset.c
 libbsp_a_SOURCES += startup/bspstart.c
 libbsp_a_SOURCES += startup/bspstarthooks.c
 libbsp_a_SOURCES += startup/bspstartmmu.c
+
+# LIBMM
+libbsp_a_SOURCES += ../shared/mminit.c
 
 # IRQ
 libbsp_a_SOURCES += ../../shared/src/irq-default-handler.c
