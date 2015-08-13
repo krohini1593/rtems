@@ -28,6 +28,7 @@ nodist_include_bsp_HEADERS = ../../shared/include/bootcard.h
 
 include_bsp_HEADERS =
 include_bsp_HEADERS += ../../shared/include/utility.h
+include_bsp_HEADERS += ../../../libbsp/shared/include/mm.h
 include_bsp_HEADERS += ../../shared/include/irq-generic.h
 include_bsp_HEADERS += ../../shared/include/irq-info.h
 include_bsp_HEADERS += ../../shared/include/stackalloc.h
@@ -132,6 +133,9 @@ libbsp_a_CPPFLAGS += -I$(srcdir)/../shared/arm-l2c-310
 
 # Start hooks
 libbsp_a_SOURCES += startup/bspstarthooks.c startup/bspstartmmu.c
+
+# LIBMM
+libbsp_a_SOURCES += ../shared/mminit.c
 
 ###############################################################################
 #                  Special Rules                                              #
