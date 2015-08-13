@@ -31,7 +31,6 @@ include_bsp_HEADERS =
 include_bsp_socal_HEADERS =
 
 include_bsp_HEADERS += ../../shared/include/utility.h
-include_bsp_HEADERS += ../../../libbsp/shared/include/mm.h
 include_bsp_HEADERS += ../../shared/include/irq-generic.h
 include_bsp_HEADERS += ../../shared/include/irq-info.h
 include_bsp_HEADERS += ../../shared/include/stackalloc.h
@@ -176,9 +175,6 @@ if HAS_SMP
 libbsp_a_SOURCES += ../shared/arm-a9mpcore-smp.c
 libbsp_a_SOURCES += startup/bspsmp.c
 endif
-
-# LIBMM
-libbsp_a_SOURCES += ../shared/mminit.c
 
 # IRQ
 libbsp_a_SOURCES += ../../shared/src/irq-default-handler.c

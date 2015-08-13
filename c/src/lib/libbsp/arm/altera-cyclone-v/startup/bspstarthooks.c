@@ -15,7 +15,6 @@
 #define ARM_CP15_TEXT_SECTION BSP_START_TEXT_SECTION
 
 #include <bsp.h>
-#include <bsp/mm.h>
 #include <bsp/start.h>
 #include <bsp/arm-cp15-start.h>
 #include <bsp/arm-a9mpcore-start.h>
@@ -36,13 +35,18 @@ BSP_START_TEXT_SECTION void bsp_start_hook_0( void )
 }
 
 BSP_START_TEXT_SECTION static void setup_mmu_and_cache(void)
-{ 
-  uint32_t bsp_initial_mmu_ctrl_clear = ARM_CP15_CTRL_M | ARM_CP15_CTRL_A; 
-  uint32_t bsp_initial_mmu_ctrl_set = ARM_CP15_CTRL_AFE | ARM_CP15_CTRL_Z;
-  
-    bsp_memory_management_initialize(
-    bsp_initial_mmu_ctrl_set,
-    bsp_initial_mmu_ctrl_clear
+{
+  uint32_t ctrl = arm_cp15_start_setup_mmu_and_cache(
+    ARM_CP15_CTRL_A | ARM_CP15_CTRL_M,
+    ARM_CP15_CTRL_AFE | ARM_CP15_CTRL_Z
+  );
+
+  arm_cp15_start_setup_translation_table_and_enable_mmu_and_cache(
+    ctrl,
+    (uint32_t *) bsp_translation_table_base,
+    ARM_MMU_DEFAULT_CLIENT_DOMAIN,
+    &arm_cp15_start_mmu_config_table[0],
+    arm_cp15_start_mmu_config_table_size
   );
 }
 
