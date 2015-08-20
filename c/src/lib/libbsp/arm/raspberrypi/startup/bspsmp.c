@@ -2,28 +2,33 @@
 #include <libcpu/arm-cp15.h>
 #include <bsp/arm-cp15-start.h>
 #include <bsp.h>
-
-BSP_START_TEXT_SECTION void start_processor(uint32_t cpuid)
-{
-  void (*cpu_mailbox_write_set_reg)() = (void (*)() )(MAILBOX_WRITE_SET_BASE + 0x10*cpuid); 
-  cpu_mailbox_write_set_reg = _start;
-}
+#include <bsp/start.h>
+#include <bsp/irq.h>
+#include <bsp/linker-symbols.h>
+#include <rtems/score/smpimpl.h>
 
 BSP_START_TEXT_SECTION void raspberrypi_wake_secondary_processors()
 {
-  uint32_t cpu_count = 4;
-  uint32_t cpuid;
-  
-  for(cpuid=1;cpuid<cpu_count;cpuid++)
-  {
-    start_processor(cpuid);
-  }
-}
+  __asm__ volatile (
+   "ldr r2 , =_start\n"
+   "ldr r1 , =0x4000009C\n"
+   "str r2 , [r1]\n"
+   "ldr r1 , =0x400000AC\n"
+   "str r2 , [r1]\n"
+   "ldr r1 , =0x400000BC\n"
+   "str r2 , [r1]\n"
+  ); 
+} 
 
 BSP_START_TEXT_SECTION inline void start_on_secondary_processor(void)
 {
   uint32_t ctrl;
-
+   
+  /* Includes support only for mailbox 3 interrupt. 
+   * Further interrupt support has to be added. This will have to be integrated
+   * with existing interrupt support for Raspberry Pi */
+   raspberrypi_IPI_initialize();
+  
   ctrl = arm_cp15_start_setup_mmu_and_cache(
     0,
     ARM_CP15_CTRL_AFE | ARM_CP15_CTRL_Z
@@ -44,11 +49,7 @@ BSP_START_TEXT_SECTION inline void start_on_secondary_processor(void)
 }
 
 bool _CPU_SMP_Start_processor(uint32_t cpu_index)
-{
-  (void) cpu_index;
-
-  /* Nothing to do */
-
+{ 
   return true;
 }
 
@@ -62,12 +63,7 @@ uint32_t _CPU_SMP_Initialize(void)
 
 void _CPU_SMP_Finalize_initialization(uint32_t cpu_count)
 {
-  /* this definition is incomplete */
-  if (cpu_count > 0) {
-    rtems_status_code sc;
-    
-    sc = RTEMS_SUCCESSFUL;
-  }
+  
 }
  
 void _CPU_SMP_Prepare_start_multitasking( void )
@@ -77,5 +73,36 @@ void _CPU_SMP_Prepare_start_multitasking( void )
 
 void _CPU_SMP_Send_interrupt( uint32_t target_processor_index )
 {
+  /* Generates IPI */
+  uint32_t *target_mb_write = (uint32_t *)(BCM2836_MAILBOX_3_WRITE_SET_BASE + 0x10 * target_processor_index);
+  *target_mb_write = 0x1;
+}
+
+void raspberrypi_IPI_initialize(void)
+{
+  uint32_t cpuid = arm_cortex_a9_get_multiprocessor_cpu_id();
+  uint32_t *mb_read_clr = (uint32_t *)(BCM2836_MAILBOX_3_READ_CLEAR_BASE + 0x10 * cpuid);
+  uint32_t *mb_write_set = (uint32_t *)(BCM2836_MAILBOX_3_WRITE_SET_BASE + 0x10 * cpuid);
+  uint32_t *mb_irq_ctrl = (uint32_t *)(BCM2836_MAILBOX_IRQ_CTRL_BASE + 4 * cpuid);
   
+  /* reset mailbox 3 contents to zero */
+  *mb_read_clr = *mb_write_set;
+  
+  *mb_irq_ctrl |= 0x8;    
+}
+
+void raspberrypi_IPI_handler(void)
+{
+  uint32_t cpuid = arm_cortex_a9_get_multiprocessor_cpu_id();
+  uint32_t *irq_src_reg = (uint32_t *)(BCM2836_IRQ_SOURCE_REG_BASE + 4 * cpuid);
+  uint32_t *mb_irq_ctrl = (uint32_t *)(BCM2836_MAILBOX_IRQ_CTRL_BASE + 4 * cpuid);
+  uint32_t *mb_read_clr = (uint32_t *)(BCM2836_MAILBOX_3_READ_CLEAR_BASE + 0x10 * cpuid);
+  
+  if ((*irq_src_reg & 0x80) && (*mb_read_clr == 0x01 )){
+    
+    /* writing zero to mailbox clears the interrupt */
+    *mb_read_clr = 0x01;
+    
+    _SMP_Inter_processor_interrupt_handler();
+  }
 }

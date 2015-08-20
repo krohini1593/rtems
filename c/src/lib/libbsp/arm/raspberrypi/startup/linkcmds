@@ -41,7 +41,7 @@ MEMORY {
 	RAM_MMU        (AIW) : ORIGIN = 128M - 16k, LENGTH = 16k
 }
 
-bsp_processor_count = 4;
+bsp_processor_count = DEFINED (bsp_processor_count) ? bsp_processor_count : 4;
 
 REGION_ALIAS ("REGION_START", RAM);
 REGION_ALIAS ("REGION_VECTOR", VECTOR_RAM);
@@ -65,6 +65,7 @@ bsp_stack_irq_size = DEFINED (bsp_stack_irq_size) ? bsp_stack_irq_size : 4096;
 bsp_stack_abt_size = DEFINED (bsp_stack_abt_size) ? bsp_stack_abt_size : 1024;
 
 bsp_section_robarrier_align = DEFINED (bsp_section_robarrier_align) ? bsp_section_robarrier_align : 1M;
+
 bsp_translation_table_base = ORIGIN (RAM_MMU);
 
 INCLUDE linkcmds.armv4

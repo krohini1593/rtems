@@ -39,7 +39,7 @@ BSP_START_TEXT_SECTION static void raspberrypi_setup_mmu_and_cache(void)
 #else
   bsp_initial_mmu_ctrl_clear = 0;
   bsp_initial_mmu_ctrl_set = ARM_CP15_CTRL_AFE | ARM_CP15_CTRL_S 
-			      | ARM_CP15_CTRL_XP;  
+  | ARM_CP15_CTRL_XP;  
 #endif
   
   bsp_memory_management_initialize(
@@ -56,12 +56,13 @@ void BSP_START_TEXT_SECTION bsp_start_hook_0(void)
   actlr |= ARM_CORTEX_A9_ACTL_SMP;
   arm_cp15_set_auxiliary_control(actlr);  
 #endif
-  
+ 
 #ifdef RTEMS_SMP
   uint32_t cpuid = arm_cortex_a9_get_multiprocessor_cpu_id();
   if(cpuid==0){
     raspberrypi_wake_secondary_processors();
-  }
+    raspberrypi_IPI_initialize();
+  } 
   if(cpuid != 0){
     start_on_secondary_processor();
   } 

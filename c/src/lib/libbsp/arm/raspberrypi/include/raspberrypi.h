@@ -215,17 +215,36 @@
  * @{
  */
 
-#define MAILBOX_WRITE_SET_BASE 0x4000008C 
+#define BCM2836_MAILBOX_0_WRITE_SET_BASE 0x40000080
+#define BCM2836_MAILBOX_1_WRITE_SET_BASE 0x40000084
+#define BCM2836_MAILBOX_2_WRITE_SET_BASE 0x40000088
+#define BCM2836_MAILBOX_3_WRITE_SET_BASE 0x4000008C
+#define BCM2836_MAILBOX_0_READ_CLEAR_BASE 0x4000008C0
+#define BCM2836_MAILBOX_1_READ_CLEAR_BASE 0x4000008C4
+#define BCM2836_MAILBOX_2_READ_CLEAR_BASE 0x4000008C8
+#define BCM2836_MAILBOX_3_READ_CLEAR_BASE 0x4000008CC 
+
+/** @} */
+
+/**
+ * @name Raspberry Pi 2 Interrupt Register Defines
+ *
+ * @{
+ */
+
+#define BCM2836_MAILBOX_IRQ_CTRL_BASE 0x40000050
+#define BCM2836_IRQ_SOURCE_REG_BASE 0x40000060
 
 /** @} */
 
 /**
  * @brief Raspberry Pi 2 SMP functions
  */
+
 void start_on_secondary_processor(void);
-void start_processor(uint32_t cpuid);
-void raspberrypi_wake_secondary_processor(void);
-void (*cpu_mailbox_write_set_reg)(void);
+void raspberrypi_wake_secondary_processors(void);
+void raspberrypi_IPI_initialize(void);
+void raspberrypi_IPI_handler(void);
 
 /** @} */
 
