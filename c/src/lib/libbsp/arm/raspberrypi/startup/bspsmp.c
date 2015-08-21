@@ -83,7 +83,7 @@ void raspberrypi_IPI_initialize(void)
   uint32_t cpuid = arm_cortex_a9_get_multiprocessor_cpu_id();
   uint32_t *mb_read_clr = (uint32_t *)(BCM2836_MAILBOX_3_READ_CLEAR_BASE + 0x10 * cpuid);
   uint32_t *mb_write_set = (uint32_t *)(BCM2836_MAILBOX_3_WRITE_SET_BASE + 0x10 * cpuid);
-  uint32_t *mb_irq_ctrl = (uint32_t *)(BCM2836_MAILBOX_IRQ_CTRL_BASE + 4 * cpuid);
+  uint32_t *mb_irq_ctrl = (uint32_t *)(BCM2836_MAILBOX_IRQ_CTRL_BASE + 0x4 * cpuid);
   
   /* reset mailbox 3 contents to zero */
   *mb_read_clr = *mb_write_set;
@@ -94,8 +94,8 @@ void raspberrypi_IPI_initialize(void)
 void raspberrypi_IPI_handler(void)
 {
   uint32_t cpuid = arm_cortex_a9_get_multiprocessor_cpu_id();
-  uint32_t *irq_src_reg = (uint32_t *)(BCM2836_IRQ_SOURCE_REG_BASE + 4 * cpuid);
-  uint32_t *mb_irq_ctrl = (uint32_t *)(BCM2836_MAILBOX_IRQ_CTRL_BASE + 4 * cpuid);
+  uint32_t *irq_src_reg = (uint32_t *)(BCM2836_IRQ_SOURCE_REG_BASE + 0x4 * cpuid);
+  uint32_t *mb_irq_ctrl = (uint32_t *)(BCM2836_MAILBOX_IRQ_CTRL_BASE + 0x4 * cpuid);
   uint32_t *mb_read_clr = (uint32_t *)(BCM2836_MAILBOX_3_READ_CLEAR_BASE + 0x10 * cpuid);
   
   if ((*irq_src_reg & 0x80) && (*mb_read_clr == 0x01 )){
